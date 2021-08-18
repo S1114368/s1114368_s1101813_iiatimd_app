@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">My Application</string>
+    <string name="login">Login</string>
+    <string name="welkom">Goedendag Naam Gebruiker,</string>
+    <string name="qoute">Alle paddestoelen zijn eetbaar. Weliswaar zijn er paddestoelen die je maar één keer kunt eten.</string>
+    <string name="gerechtTitle">Chicken Kebab</string>
 </resources>
