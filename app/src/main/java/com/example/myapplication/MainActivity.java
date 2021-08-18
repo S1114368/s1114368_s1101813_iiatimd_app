@@ -10,9 +10,7 @@ import android.view.View;
 import android.widget.Button;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
-    private RecyclerView recyclerView;
     private Button toSecondScreenButton;
-    private RecyclerView.LayoutManager layoutManager;
 
 
     @Override
@@ -21,12 +19,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
         toSecondScreenButton = findViewById(R.id.buttonLogin);
         toSecondScreenButton.setOnClickListener(this);
-
-        recyclerView = findViewById(R.id.recyclerViewId);
-        //recycler view heeft een layout manager nodig zodat alles netjes onder elkaar komt
-        layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
-        recyclerView.setLayoutManager(layoutManager);
-        recyclerView.hasFixedSize();
     }
 
     @Override

@@ -6,10 +6,10 @@ import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
 @Entity
-public class GerechtenCard { 
+public class GerechtenCard {
 
         @ColumnInfo
-        private String img;
+        private int img;
 
         @ColumnInfo
         private String gerechtNaam;
@@ -17,13 +17,13 @@ public class GerechtenCard {
         @PrimaryKey
         private int uuid;
 
-        public GerechtenCard (String img, String gerechtNaam, int uuid){
+        public GerechtenCard (int img, String gerechtNaam, int uuid){
             this.img = img;
             this.gerechtNaam = gerechtNaam;
             this.uuid = uuid;
         }
 
-        public String getImg(){
+        public int getImg(){
             return this.img;
         }
         public String getGerechtNaam(){
@@ -32,5 +32,4 @@ public class GerechtenCard {
         public int getUuid(){
             return this.uuid;
         }
-    }
 }
