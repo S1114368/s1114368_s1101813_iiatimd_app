@@ -11,16 +11,13 @@ public class GerechtenCard {
         @ColumnInfo
         private int img;
 
-        @ColumnInfo
+        @PrimaryKey
         private String gerechtNaam;
 
-        @PrimaryKey
-        private int uuid;
 
         public GerechtenCard (int img, String gerechtNaam, int uuid){
             this.img = img;
             this.gerechtNaam = gerechtNaam;
-            this.uuid = uuid;
         }
 
         public int getImg(){
@@ -28,8 +25,5 @@ public class GerechtenCard {
         }
         public String getGerechtNaam(){
             return this.gerechtNaam;
-        }
-        public int getUuid(){
-            return this.uuid;
         }
 }

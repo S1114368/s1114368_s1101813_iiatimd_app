@@ -1,0 +1,64 @@
+{
+  "gerechtData": [
+    {
+      "gerecht_naam": "lekker kippie",
+      "aantal_personen": 2,
+      "categorie": "kip",
+      "ingredienten": [
+        "kip 500g",
+        "sambal 2 theelepels",
+        "komijn"
+      ],
+      "instructies": [
+        "schoonmaken",
+        "lang bakken op 200 graden bla lorem impsum bla bla bla lorem lorem graden bakken",
+        "serveren met extra veel saus bla blabalbalbalabla loremloremlroem ipsum ipsum ipsum ipsum ipsum lorem lorem lorem lorem"
+      ]
+    },
+    {
+      "gerecht_naam": "lekker rundvlees",
+      "aantal_personen": 3,
+      "categorie": "rund",
+      "ingredienten": [
+        "rund 500g",
+        "sambal 2 theelepels",
+        "komijn"
+      ],
+      "instructies": [
+        "schoonmaken",
+        "lang bakken op 200 graden bla lorem impsum bla bla bla lorem lorem graden bakken",
+        "serveren met extra veel saus bla blabalbalbalabla loremloremlroem ipsum ipsum ipsum ipsum ipsum lorem lorem lorem lorem"
+      ]
+    },
+    {
+      "gerecht_naam": "lekker vegatarisch",
+      "aantal_personen": 4,
+      "categorie": "vega",
+      "ingredienten": [
+        "tofu 500g",
+        "sambal 2 theelepels",
+        "komijn"
+      ],
+      "instructies": [
+        "schoonmaken",
+        "lang bakken op 200 graden bla lorem impsum bla bla bla lorem lorem graden bakken",
+        "serveren met extra veel saus bla blabalbalbalabla loremloremlroem ipsum ipsum ipsum ipsum ipsum lorem lorem lorem lorem"
+      ]
+    },
+    {
+      "gerecht_naam": "lekker vissie",
+      "aantal_personen": 10,
+      "categorie": "vis",
+      "ingredienten": [
+        "vis 500g",
+        "sambal 2 theelepels",
+        "komijn"
+      ],
+      "instructies": [
+        "schoonmaken",
+        "lang bakken op 200 graden bla lorem impsum bla bla bla lorem lorem graden bakken",
+        "serveren met extra veel saus bla blabalbalbalabla loremloremlroem ipsum ipsum ipsum ipsum ipsum lorem lorem lorem lorem"
+      ]
+    }
+  ]
+  }

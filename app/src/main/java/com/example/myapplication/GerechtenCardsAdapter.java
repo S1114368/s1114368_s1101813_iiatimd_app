@@ -16,19 +16,31 @@ import org.jetbrains.annotations.NotNull;
 public class GerechtenCardsAdapter extends RecyclerView.Adapter<GerechtenCardsAdapter.GerechtenCardViewHolder>{
     private GerechtenCard[] gerechtenCards;
     private Context ctx;
+    private OnNoteListener mOnNoteListener;
 
     //Hoe deze classe in elkaar zit als er een object van word gemaakt
-    public GerechtenCardsAdapter(GerechtenCard[] gerechtenCards){ this.gerechtenCards = gerechtenCards; }
+    public GerechtenCardsAdapter(GerechtenCard[] gerechtenCards, OnNoteListener onNoteListener){
+        this.gerechtenCards = gerechtenCards;
+        this.mOnNoteListener = onNoteListener;
+    }
 
     //interne view holder classe, zorgt dat er bepaalde data uit een lijst in een row layout doet.
-    public static class GerechtenCardViewHolder extends RecyclerView.ViewHolder{
+    public static class GerechtenCardViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         public TextView textView3;
         public ImageView imageView3;
+        OnNoteListener onNoteListener;
         //krijgt kaartje binnen
-        public GerechtenCardViewHolder(View v){
+        public GerechtenCardViewHolder(View v, OnNoteListener onNoteListener){
             super(v);
             textView3 = v.findViewById(R.id.textView3);
             imageView3 = v.findViewById(R.id.imageView3);
+            this.onNoteListener = onNoteListener;
+            itemView.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View view) {
+            onNoteListener.onNoteClick(getAdapterPosition());
         }
     }
 
@@ -38,7 +50,7 @@ public class GerechtenCardsAdapter extends RecyclerView.Adapter<GerechtenCardsAd
     public GerechtenCardViewHolder onCreateViewHolder(@NonNull @NotNull ViewGroup parent, int viewType) {
         //view zorgt voor het kaarjte in gerechtenCard card
         View v = (CardView) LayoutInflater.from(parent.getContext()).inflate(R.layout.gerecht_card, parent, false);
-        GerechtenCardViewHolder gerechtenCardViewHolder = new GerechtenCardViewHolder(v);
+        GerechtenCardViewHolder gerechtenCardViewHolder = new GerechtenCardViewHolder(v, mOnNoteListener);
         return gerechtenCardViewHolder;
     }
 
@@ -53,5 +65,9 @@ public class GerechtenCardsAdapter extends RecyclerView.Adapter<GerechtenCardsAd
     @Override
     public int getItemCount() {
         return gerechtenCards.length;
+    }
+
+    public interface OnNoteListener{
+        void onNoteClick(int position);
     }
 }
