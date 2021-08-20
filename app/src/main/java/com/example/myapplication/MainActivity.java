@@ -23,7 +23,6 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     private Button toSecondScreenButton;
-    private String json;
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
@@ -32,45 +31,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
         toSecondScreenButton = findViewById(R.id.buttonLogin);
         toSecondScreenButton.setOnClickListener(this);
-        InputStream inputStream = null;
-        try {
-            inputStream = getAssets().open("data.json");
-            int size = inputStream.available();
-            byte[] buffer = new byte[size];
-            // read values in the byte array
-            inputStream.read(buffer);
-            inputStream.close();
-            // convert byte to string
-            json = new String(buffer, "UTF-8");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        Log.d("jsontest", json);
-        try {
-            JSONObject object = new JSONObject(json);
-            JSONArray arrGerechten = object.getJSONArray("gerechtData");
-            for (int i = 0; i < arrGerechten.length(); i++){
-                Log.d("werkpls", arrGerechten.getJSONObject(i).getString("gerecht_naam"));
-                String ingredienten;
-                ingredienten = arrGerechten.getJSONObject(i).getString("ingredienten");
-                List<String> myList = new ArrayList<String>(Arrays.asList(ingredienten.split(",")));
-                for (int x = 0; x < myList.size(); x++){
-                    myList.set(x, myList.get(x).replaceAll("[^\\w\\s]",""));
-                    Log.d("werkpls2", myList.get(x));
-                }
 
-            }
-//            JSONArray jsonArray = (JSONArray) object.get("ingredienten");
-//            List<String> list = new ArrayList<String>();
-//            for(int i = 0; i < jsonArray.length(); i++){
-//                list.add(jsonArray.get(i).toString());
-//            }
-//            Log.d("werkpls", list.toString());
-            Log.d("werkpls", "xd");
-
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
     }
 
     @Override
