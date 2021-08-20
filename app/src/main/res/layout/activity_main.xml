@@ -11,20 +11,20 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="100dp"
-        android:text="Naam:"
+        android:text="Email:"
         android:textColor="#000000"
         android:textSize="24dp"
-        app:layout_constraintStart_toStartOf="@+id/loginName"
+        app:layout_constraintStart_toStartOf="@+id/loginEmail"
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/loginName"
+        android:id="@+id/loginEmail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:ems="10"
         android:inputType="textPersonName"
-        android:hint="Naam"
+        android:hint="Email"
         android:background="@drawable/rounded_corners"
         android:padding="6dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -40,7 +40,7 @@
         android:textColor="#000000"
         android:textSize="24dp"
         app:layout_constraintStart_toStartOf="@+id/loginPassword"
-        app:layout_constraintTop_toBottomOf="@+id/loginName" />
+        app:layout_constraintTop_toBottomOf="@+id/loginEmail" />
 
     <EditText
         android:id="@+id/loginPassword"
@@ -57,7 +57,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textView5" />
 
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/registerButton"
         android:layout_width="125dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
@@ -69,24 +69,27 @@
         app:layout_constraintTop_toBottomOf="@+id/loginPassword" />
 
     <TextView
-        android:id="@+id/textView6"
+        android:id="@+id/registerText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:text="Registreren"
+        android:onClick="setRegisterContent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button2" />
+        app:layout_constraintTop_toBottomOf="@+id/registerButton" />
 
     <TextView
         android:id="@+id/myAwesomeTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:layout_marginTop="16dp"
-        android:text="Escriba el mensaje y luego clickee el canal a ser enviado"
-        android:textSize="12dp"
+        android:layout_marginTop="6dp"
+        android:text=""
+        android:textSize="16dp"
+        android:textColor="@color/primary_red"
+        app:layout_constraintBottom_toTopOf="@+id/registerButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/loginPassword" />
 </androidx.constraintlayout.widget.ConstraintLayout>
