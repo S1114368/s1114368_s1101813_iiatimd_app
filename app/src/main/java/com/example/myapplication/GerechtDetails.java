@@ -3,6 +3,7 @@ package com.example.myapplication;
 import android.os.Bundle;
 
 import android.util.Log;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -14,6 +15,7 @@ public class GerechtDetails extends AppCompatActivity {
     private TextView gerechtTitle;
     private TextView instructiesText;
     private TextView ingredientenText;
+    private ImageView imageViewDetails;
     private List<String> ingredienten;
     private List<String> instructies;
     private StringBuilder ingredientBuild;
@@ -28,6 +30,9 @@ public class GerechtDetails extends AppCompatActivity {
         TextView appBarTitlex = findViewById(R.id.applicationBarTitle);
         String titletekst = gerechtenCard.getGerechtNaam();
         appBarTitlex.setText(gerechtenCard.getGerechtNaam());
+
+        imageViewDetails = findViewById(R.id.imageViewDetails);
+        imageViewDetails.setImageResource(gerechtenCard.getImg());
 
         gerechtTitle = findViewById(R.id.gerechtTitleDetails);
         gerechtTitle.setText(gerechtenCard.getGerechtNaam());

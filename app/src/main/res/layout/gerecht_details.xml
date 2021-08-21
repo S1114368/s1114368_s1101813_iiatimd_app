@@ -31,7 +31,7 @@
             android:layout_marginTop="28dp"
             android:text="@string/instructies"
             android:textSize="16dp"
-            android:paddingBottom="16dp"
+
             android:textStyle="italic"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.094"
@@ -43,7 +43,7 @@
             layout="@layout/toolbar" />
 
         <ImageView
-            android:id="@+id/imageView"
+            android:id="@+id/imageViewDetails"
             android:layout_width="409dp"
             android:layout_height="198dp"
             android:scaleType="centerCrop"
@@ -63,7 +63,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.119"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/imageView" />
+            app:layout_constraintTop_toBottomOf="@+id/imageViewDetails" />
 
         <TextView
             android:id="@+id/textView6"
