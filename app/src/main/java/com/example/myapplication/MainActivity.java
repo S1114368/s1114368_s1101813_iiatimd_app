@@ -44,7 +44,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+public class MainActivity extends AppCompatActivity {
     private Button toSecondScreenButton;
 
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -52,17 +52,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        toSecondScreenButton = findViewById(R.id.buttonLogin);
-        toSecondScreenButton.setOnClickListener(this);
-
     }
-
-    @Override
-    public void onClick(View view) {
-        Intent toSecondScreenIntent = new Intent(this, HomePage.class);
-        startActivity(toSecondScreenIntent);
-    }
-
+    
     public void setRegisterContent(View view){
         startActivity(new Intent(MainActivity.this, AddReceiptActivity.class));
     }
