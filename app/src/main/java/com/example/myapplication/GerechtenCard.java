@@ -20,6 +20,9 @@ public class GerechtenCard implements Parcelable {
         private int aantal_personen;
 
         @ColumnInfo
+        private boolean gerechtOntdekken;
+
+        @ColumnInfo
         private String categorie;
 
         @ColumnInfo
@@ -28,12 +31,13 @@ public class GerechtenCard implements Parcelable {
         @ColumnInfo
         private List<String> instructies;
 
-    public GerechtenCard (String gerechtNaam, int aantal_personen, String categorie, List<String> ingredienten, List<String> instructies){
+    public GerechtenCard (String gerechtNaam, int aantal_personen, String categorie, List<String> ingredienten, List<String> instructies, boolean gerechtOndekken){
             this.gerechtNaam = gerechtNaam;
             this.aantal_personen = aantal_personen;
             this.categorie = categorie;
             this.ingredienten = ingredienten;
             this.instructies = instructies;
+            this.gerechtOntdekken = gerechtOndekken;
     }
 
     protected GerechtenCard(Parcel in) {
@@ -50,6 +54,8 @@ public class GerechtenCard implements Parcelable {
     public String getCategorie() {
         return categorie;
     }
+
+    public boolean getGerechtOntdekken() {return gerechtOntdekken;}
 
     public List<String> getIngredienten() {
         return ingredienten;

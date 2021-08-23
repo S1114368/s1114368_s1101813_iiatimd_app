@@ -3,14 +3,18 @@ package com.example.myapplication;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.gson.Gson;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.Volley;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -22,12 +26,20 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class HomePage extends AppCompatActivity implements GerechtenCardsAdapter.OnNoteListener{
+public class HomePage extends AppCompatActivity implements GerechtenCardsAdapter.OnNoteListener, EigenGerechtenCardsAdapter.OnNoteListener{
     private RecyclerView.LayoutManager layoutManager;
+    private RecyclerView.LayoutManager layoutManager2;
     private RecyclerView recyclerView;
+    private RecyclerView recyclerView2;
     private RecyclerView.Adapter recyclerViewAdapter;
+    private RecyclerView.Adapter recyclerViewAdapter2;
     private GerechtenCard[] gerechtenOntDekken;
+    private GerechtenCard[] eigenGerechten;
     private String json;
+    private JSONArray userGerechten;
+    private List<List<String>> userIngredienten = new ArrayList<List<String>>();
+    private List<List<String>> userInstructies = new ArrayList<List<String>>();
+    private RequestQueue queue;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +47,7 @@ public class HomePage extends AppCompatActivity implements GerechtenCardsAdapter
         setContentView(R.layout.home_page);
         TextView appBarTitle =findViewById(R.id.applicationBarTitle);
         appBarTitle.setText("Home Page");
+        Bundle myBundle = getIntent().getExtras();
 
         recyclerView = findViewById(R.id.recyclerViewId);
         //recycler view heeft een layout manager nodig zodat alles netjes onder elkaar komt
@@ -43,18 +56,150 @@ public class HomePage extends AppCompatActivity implements GerechtenCardsAdapter
         recyclerView.hasFixedSize();
 
         //Standaard ontdek gerechten
-        getGerechtenOntdekken();
+        getGerechtenOntdekken();;
+        getUserGerechten(myBundle.getInt("user_ID"));
 
         recyclerViewAdapter = new GerechtenCardsAdapter(gerechtenOntDekken, this);
         recyclerView.setAdapter(recyclerViewAdapter);
 
     }
 
+    private void getUserGerechten(int user_ID) {
+        queue = Volley.newRequestQueue(this);
+        String url ="http://10.0.2.2:8000/api/gerechten/" + String.valueOf(user_ID);
+
+
+        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, url, null,
+                new Response.Listener<JSONArray>() {
+                    @Override
+                    public void onResponse(JSONArray response) {
+                        userGerechten = response;
+                        eigenGerechten = new GerechtenCard[userGerechten.length()];
+                        setIngredientenList(userGerechten);
+                        }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.d("error", String.valueOf(error));
+            }
+        });
+        queue.add(jsonArrayRequest);
+    }
+
+    public void setIngredientenList(JSONArray userGerechten) {
+        int i = 0;
+        for(i = 0; i < userGerechten.length(); i++){
+            try {
+                String url3 = "http://10.0.2.2:8000/api/gerechten/" + String.valueOf(userGerechten.getJSONObject(i).getString("gerecht_ID") + "/ingredient");
+                JsonArrayRequest jsonArrayRequest3 = new JsonArrayRequest(Request.Method.GET, url3, null,
+                        new Response.Listener<JSONArray>() {
+                            @Override
+                            public void onResponse(JSONArray response) {
+                                userIngredienten.add(new ArrayList<String>());
+                                int currentPosition = userIngredienten.size() - 1;
+                                for(int x = 0; x < response.length(); x++){
+                                    try {
+                                        userIngredienten.get(currentPosition).add(String.valueOf(response.getJSONObject(x).getString("beschrijving_ingredient")));
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+                                setInstructiesList(userGerechten, currentPosition);
+//                                userIngredienten
+//                                try {
+//                                    Log.d("testdietest", String.valueOf(instructieGerechtenList.get(0).getJSONObject(0).getString("beschrijving_ingredient")));
+//                                } catch (JSONException e) {
+//                                    e.printStackTrace();
+//                                }
+                            }
+                        }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.d("error", String.valueOf(error));
+                    }
+                });
+                queue.add(jsonArrayRequest3);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public void setInstructiesList(JSONArray userGerechten, int counter) {
+            try {
+                String url3 = "http://10.0.2.2:8000/api/gerechten/" + String.valueOf(userGerechten.getJSONObject(counter).getString("gerecht_ID") + "/instructie");
+                JsonArrayRequest jsonArrayRequest3 = new JsonArrayRequest(Request.Method.GET, url3, null,
+                        new Response.Listener<JSONArray>() {
+                            @Override
+                            public void onResponse(JSONArray response) {
+                                userInstructies.add(new ArrayList<String>());
+                                int currentPosition = userInstructies.size() - 1;
+                                for(int x = 0; x < response.length(); x++){
+                                    try {
+                                        userInstructies.get(currentPosition).add(String.valueOf(response.getJSONObject(x).getString("beschrijving_instructie")));
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+                                try {
+                                    String gerechtNaam = userGerechten.getJSONObject(currentPosition).getString("gerecht_naam");
+                                    int aantal_personen = userGerechten.getJSONObject(currentPosition).getInt("aantal_personen");
+                                    String categorie = userGerechten.getJSONObject(currentPosition).getString("categorie");
+                                    List<String> instructies = userInstructies.get(currentPosition);
+                                    List<String> ingredienten = userIngredienten.get(currentPosition);
+                                    eigenGerechten[currentPosition] = new GerechtenCard(gerechtNaam, aantal_personen, categorie, ingredienten, instructies,  false);
+                                    if(userInstructies.size() == userGerechten.length()){
+                                        maakEigenGerechten(eigenGerechten);
+                                    }
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+//                                gerechtenOntDekken[i] = new GerechtenCard(gerecht_naam, aantal_personen, categorie, myListIngredienten, myListInstructies);
+//                                instructieGerechtenList.add(response);
+//                                try {
+//                                    Log.d("supertest2", instructieGerechtenList.get(0).getJSONObject(0).getString("beschrijving_instructie"));
+//                                } catch (JSONException e) {
+//                                    e.printStackTrace();
+//                                }
+                            }
+                        }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.d("error", String.valueOf(error));
+                    }
+                });
+                queue.add(jsonArrayRequest3);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+    }
+
     @Override
     public void onNoteClick(int position) {
         Log.d("test123", "clicked");
         Intent intentGerechtDetails = new Intent(this, GerechtDetails.class);
+
         intentGerechtDetails.putExtra("geselecteerde_gerecht", gerechtenOntDekken[position]);
+        startActivity(intentGerechtDetails);
+    }
+
+    private void maakEigenGerechten(GerechtenCard[] eigenGerechten) {
+        recyclerView2 = findViewById(R.id.recyclerViewId2);
+        //recycler view heeft een layout manager nodig zodat alles netjes onder elkaar komt
+        layoutManager2 = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+        recyclerView2.setLayoutManager(layoutManager2);
+        recyclerView2.hasFixedSize();
+        recyclerViewAdapter2 = new EigenGerechtenCardsAdapter(eigenGerechten, this);
+        recyclerView2.setAdapter(recyclerViewAdapter2);
+
+    }
+
+    @Override
+    public void onNoteClickEigenGerecht(int position) {
+        Log.d("test123", "clicked");
+        Intent intentGerechtDetails = new Intent(this, GerechtDetails.class);
+
+        intentGerechtDetails.putExtra("geselecteerde_gerecht", eigenGerechten[position]);
         startActivity(intentGerechtDetails);
     }
 
@@ -94,8 +239,7 @@ public class HomePage extends AppCompatActivity implements GerechtenCardsAdapter
                 for (int x = 0; x < myListInstructies.size(); x++){
                     myListInstructies.set(x, myListInstructies.get(x).replaceAll("[^\\w\\s]",""));
                 }
-                gerechtenOntDekken[i] = new GerechtenCard(gerecht_naam, aantal_personen, categorie, myListIngredienten, myListInstructies);
-
+                gerechtenOntDekken[i] = new GerechtenCard(gerecht_naam, aantal_personen, categorie, myListIngredienten, myListInstructies, true);
             }
 
         } catch (JSONException e) {
