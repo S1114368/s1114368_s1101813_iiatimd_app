@@ -43,7 +43,7 @@ public class AddReceiptActivity extends AppCompatActivity {
         setContentView(R.layout.activity_add_receipt);
 
         String[] arraySpinner = new String[] {
-                "Vegatarisch", "Vis", "Kip", "Varken", "Rund", "Oven", "Chinees"
+                "vegatarisch", "vis", "kip", "varken", "rund", "oven"
         };
         Spinner s = (Spinner) findViewById(R.id.categorie);
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
@@ -145,6 +145,8 @@ public class AddReceiptActivity extends AppCompatActivity {
         }
 
         RequestQueue requestQueue = Volley.newRequestQueue(this);
+        Bundle myBundle = getIntent().getExtras();
+
 
         JSONObject request = new JSONObject();
         request.put("naam", String.valueOf(name.getText()));
@@ -152,8 +154,9 @@ public class AddReceiptActivity extends AppCompatActivity {
         request.put("categorie", categorie);
         request.put("instructies", steps);
         request.put("ingredienten", ingredienten);
+        request.put("user_name", String.valueOf(myBundle.getString("user_naam")));
 
-        String url = "http://10.0.2.2:8000/api/gerecht/create";
+        String url = "http://10.0.2.2:9000/api/gerecht/create";
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url, request, new Response.Listener<JSONObject>() {
             @Override
@@ -167,8 +170,6 @@ public class AddReceiptActivity extends AppCompatActivity {
             @Override
             public void onErrorResponse(VolleyError error) {
                 txt.setText("Er is wat fouts gegaan, kijk alle velden goed na.");
-                txt.setText(String.valueOf(request));
-                txt.setText(stap1.toString());
             }
         }) {
             @Override

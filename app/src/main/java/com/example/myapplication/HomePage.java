@@ -55,7 +55,7 @@ public class HomePage extends AppCompatActivity implements GerechtenCardsAdapter
         TextView appBarTitle =findViewById(R.id.applicationBarTitle);
         appBarTitle.setText("Home Page");
         Bundle myBundle = getIntent().getExtras();
-        user_naam = myBundle.getString("user_naam");
+        user_naam = String.valueOf(myBundle.getString("user_ID"));
         recyclerView = findViewById(R.id.recyclerViewId);
         //recycler view heeft een layout manager nodig zodat alles netjes onder elkaar komt
         layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
@@ -90,7 +90,7 @@ public class HomePage extends AppCompatActivity implements GerechtenCardsAdapter
 
     private void getUserGerechten(int user_ID, String categorieFilter) {
         queue = Volley.newRequestQueue(this);
-        String url ="http://10.0.2.2:8000/api/gerechten/" + String.valueOf(user_ID);
+        String url ="http://10.0.2.2:9000/api/gerechten/" + String.valueOf(user_ID);
 
 
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, url, null,
@@ -114,7 +114,7 @@ public class HomePage extends AppCompatActivity implements GerechtenCardsAdapter
         int i = 0;
         for(i = 0; i < userGerechten.length(); i++){
             try {
-                String url3 = "http://10.0.2.2:8000/api/gerechten/" + String.valueOf(userGerechten.getJSONObject(i).getString("gerecht_ID") + "/ingredient");
+                String url3 = "http://10.0.2.2:9000/api/gerechten/" + String.valueOf(userGerechten.getJSONObject(i).getString("gerecht_ID") + "/ingredient");
                 JsonArrayRequest jsonArrayRequest3 = new JsonArrayRequest(Request.Method.GET, url3, null,
                         new Response.Listener<JSONArray>() {
                             @Override
@@ -151,7 +151,7 @@ public class HomePage extends AppCompatActivity implements GerechtenCardsAdapter
 
     public void setInstructiesList(JSONArray userGerechten, int counter, String categorieFilter) {
             try {
-                String url3 = "http://10.0.2.2:8000/api/gerechten/" + String.valueOf(userGerechten.getJSONObject(counter).getString("gerecht_ID") + "/instructie");
+                String url3 = "http://10.0.2.2:9000/api/gerechten/" + String.valueOf(userGerechten.getJSONObject(counter).getString("gerecht_ID") + "/instructie");
                 JsonArrayRequest jsonArrayRequest3 = new JsonArrayRequest(Request.Method.GET, url3, null,
                         new Response.Listener<JSONArray>() {
                             @Override
@@ -216,8 +216,6 @@ public class HomePage extends AppCompatActivity implements GerechtenCardsAdapter
     private void maakEigenGerechten(GerechtenCard[] eigenGerechten) {
         AppDatabase database = AppDatabase.getInstance(this);
         if(offlineEigenGerechten == null){
-//            database.gerechtenCardDao().insertGerechtCard(eigenGerechten);
-//            offlineEigenGerechten = database.gerechtenCardDao().getAll();
             recyclerViewAdapter2 = new EigenGerechtenCardsAdapter(eigenGerechten, this);
             recyclerView2.setAdapter(recyclerViewAdapter2);
         }
