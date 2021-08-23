@@ -153,7 +153,7 @@ public class AddReceiptActivity extends AppCompatActivity {
         request.put("instructies", steps);
         request.put("ingredienten", ingredienten);
 
-        String url = "http://10.0.2.2:9000/api/gerecht/create";
+        String url = "http://10.0.2.2:8000/api/gerecht/create";
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url, request, new Response.Listener<JSONObject>() {
             @Override

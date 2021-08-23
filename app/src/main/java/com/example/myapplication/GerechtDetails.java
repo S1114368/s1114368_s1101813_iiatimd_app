@@ -24,6 +24,7 @@ public class GerechtDetails extends AppCompatActivity {
     private StringBuilder instructiesBuild;
     private Bundle bundleForHomepage;
     private int user_ID;
+    private String user_naam;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -32,6 +33,7 @@ public class GerechtDetails extends AppCompatActivity {
 
         Bundle myBundle = getIntent().getExtras();
         user_ID = myBundle.getInt("user_ID");
+        user_naam = myBundle.getString("user_naam");
         bundleForHomepage = new Bundle();
 
         setContentView(R.layout.gerecht_details);
@@ -67,6 +69,7 @@ public class GerechtDetails extends AppCompatActivity {
     }
     public void terugNaarHome(View v){
         Intent intentForHomePage = new Intent(this, HomePage.class);
+        bundleForHomepage.putString("user_naam", user_naam);
         bundleForHomepage.putInt("user_ID", user_ID);
         intentForHomePage.putExtras(bundleForHomepage);
         startActivity(intentForHomePage);

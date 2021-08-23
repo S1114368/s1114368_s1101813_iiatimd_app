@@ -46,6 +46,7 @@ public class HomePage extends AppCompatActivity implements GerechtenCardsAdapter
     private List<List<String>> userInstructies = new ArrayList<List<String>>();
     private RequestQueue queue;
     private Bundle bundleForHomepage;
+    private String user_naam;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,7 +55,7 @@ public class HomePage extends AppCompatActivity implements GerechtenCardsAdapter
         TextView appBarTitle =findViewById(R.id.applicationBarTitle);
         appBarTitle.setText("Home Page");
         Bundle myBundle = getIntent().getExtras();
-
+        user_naam = myBundle.getString("user_naam");
         recyclerView = findViewById(R.id.recyclerViewId);
         //recycler view heeft een layout manager nodig zodat alles netjes onder elkaar komt
         layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
@@ -64,6 +65,12 @@ public class HomePage extends AppCompatActivity implements GerechtenCardsAdapter
         //Standaard ontdek gerechten
         getGerechtenOntdekken(myBundle.getString("categorie"));;
         getUserGerechten(myBundle.getInt("user_ID"), myBundle.getString("categorie"));
+        TextView textview = findViewById(R.id.textView);
+        textview.setText("Goedendag " + user_naam);
+        TextView filterTitel = findViewById(R.id.textViewFilter);
+        if(!"geen filter".equals(myBundle.getString("categorie")) && myBundle.getString("categorie") != null){
+            filterTitel.setText("U filterd op " + myBundle.getString("categorie") + "gerechten");
+        }
 
         recyclerViewAdapter = new GerechtenCardsAdapter(gerechtenOntDekken, this);
         recyclerView.setAdapter(recyclerViewAdapter);
@@ -77,12 +84,13 @@ public class HomePage extends AppCompatActivity implements GerechtenCardsAdapter
 
         bundleForHomepage = new Bundle();
         bundleForHomepage.putInt("user_ID", myBundle.getInt("user_ID"));
+        bundleForHomepage.putString("user_naam", myBundle.getString("user_naam"));
 
     }
 
     private void getUserGerechten(int user_ID, String categorieFilter) {
         queue = Volley.newRequestQueue(this);
-        String url ="http://10.0.2.2:9000/api/gerechten/" + String.valueOf(user_ID);
+        String url ="http://10.0.2.2:8000/api/gerechten/" + String.valueOf(user_ID);
 
 
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, url, null,
@@ -106,7 +114,7 @@ public class HomePage extends AppCompatActivity implements GerechtenCardsAdapter
         int i = 0;
         for(i = 0; i < userGerechten.length(); i++){
             try {
-                String url3 = "http://10.0.2.2:9000/api/gerechten/" + String.valueOf(userGerechten.getJSONObject(i).getString("gerecht_ID") + "/ingredient");
+                String url3 = "http://10.0.2.2:8000/api/gerechten/" + String.valueOf(userGerechten.getJSONObject(i).getString("gerecht_ID") + "/ingredient");
                 JsonArrayRequest jsonArrayRequest3 = new JsonArrayRequest(Request.Method.GET, url3, null,
                         new Response.Listener<JSONArray>() {
                             @Override
@@ -143,7 +151,7 @@ public class HomePage extends AppCompatActivity implements GerechtenCardsAdapter
 
     public void setInstructiesList(JSONArray userGerechten, int counter, String categorieFilter) {
             try {
-                String url3 = "http://10.0.2.2:9000/api/gerechten/" + String.valueOf(userGerechten.getJSONObject(counter).getString("gerecht_ID") + "/instructie");
+                String url3 = "http://10.0.2.2:8000/api/gerechten/" + String.valueOf(userGerechten.getJSONObject(counter).getString("gerecht_ID") + "/instructie");
                 JsonArrayRequest jsonArrayRequest3 = new JsonArrayRequest(Request.Method.GET, url3, null,
                         new Response.Listener<JSONArray>() {
                             @Override
@@ -165,7 +173,7 @@ public class HomePage extends AppCompatActivity implements GerechtenCardsAdapter
                                     List<String> ingredienten = userIngredienten.get(currentPosition);
                                     eigenGerechten[currentPosition] = new GerechtenCard(gerechtNaam, aantal_personen, categorie, ingredienten, instructies,  "false");
                                     if(userInstructies.size() == userGerechten.length()){
-                                        if(categorieFilter != null && categorieFilter != "geen filter"){
+                                        if(categorieFilter != null && !"geen filter".equals(categorieFilter)){
                                             eigenGerechten = filterGerechten(categorieFilter, userGerechten, eigenGerechten);
                                         }
 
@@ -208,9 +216,9 @@ public class HomePage extends AppCompatActivity implements GerechtenCardsAdapter
     private void maakEigenGerechten(GerechtenCard[] eigenGerechten) {
         AppDatabase database = AppDatabase.getInstance(this);
         if(offlineEigenGerechten == null){
-            database.gerechtenCardDao().insertGerechtCard(eigenGerechten);
-            offlineEigenGerechten = database.gerechtenCardDao().getAll();
-            recyclerViewAdapter2 = new EigenGerechtenCardsAdapter(offlineEigenGerechten, this);
+//            database.gerechtenCardDao().insertGerechtCard(eigenGerechten);
+//            offlineEigenGerechten = database.gerechtenCardDao().getAll();
+            recyclerViewAdapter2 = new EigenGerechtenCardsAdapter(eigenGerechten, this);
             recyclerView2.setAdapter(recyclerViewAdapter2);
         }
         else{
@@ -279,7 +287,7 @@ public class HomePage extends AppCompatActivity implements GerechtenCardsAdapter
                 gerechtenOntDekken[i] = new GerechtenCard(gerecht_naam, aantal_personen, categorie, myListIngredienten, myListInstructies, "true");
             }
             Log.d("heyheyhey", categorieFilter + " emtpy");
-            if(categorieFilter != null && categorieFilter != "geen filter"){
+            if(categorieFilter != null && !"geen filter".equals(categorieFilter)){
                 gerechtenOntDekken = filterGerechten(categorieFilter, arrGerechten, gerechtenOntDekken);
             }
 //            if(categorieFilter != null && categorieFilter != "geen filter"){

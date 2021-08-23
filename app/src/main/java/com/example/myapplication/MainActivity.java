@@ -32,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
     private Button toSecondScreenButton;
     private Intent intent;
     private Bundle bundleForHomepage;
+    private String user_naam;
     private String user;
     private int user_ID;
     private JSONObject userObject;
@@ -62,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
         params.put("email", String.valueOf(loginEmail.getText()));
         JSONObject parameters = new JSONObject(params);
 
-        String url = "http://10.0.2.2:9000/api/auth/login";
+        String url = "http://10.0.2.2:8000/api/auth/login";
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url, parameters, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
@@ -80,6 +81,8 @@ public class MainActivity extends AppCompatActivity {
                         user = response.getString("user");
                         userObject = new JSONObject(user);
                         user_ID = (int) userObject.get("id");
+                        user_naam = (String) userObject.get("name");
+                        bundleForHomepage.putString("user_naam", user_naam);
                         bundleForHomepage.putInt("user_ID", user_ID);
                         intent.putExtras(bundleForHomepage);
                         startActivity(intent);
