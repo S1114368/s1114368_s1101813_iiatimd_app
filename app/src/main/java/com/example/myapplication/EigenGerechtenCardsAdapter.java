@@ -13,13 +13,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import org.jetbrains.annotations.NotNull;
 
-public class GerechtenCardsAdapter extends RecyclerView.Adapter<GerechtenCardsAdapter.GerechtenCardViewHolder>{
+public class EigenGerechtenCardsAdapter extends RecyclerView.Adapter<EigenGerechtenCardsAdapter.GerechtenCardViewHolder>{
     private GerechtenCard[] gerechtenCards;
     private Context ctx;
     private OnNoteListener mOnNoteListener;
 
     //Hoe deze classe in elkaar zit als er een object van word gemaakt
-    public GerechtenCardsAdapter(GerechtenCard[] gerechtenCards, OnNoteListener onNoteListener){
+    public EigenGerechtenCardsAdapter(GerechtenCard[] gerechtenCards, OnNoteListener onNoteListener){
         this.gerechtenCards = gerechtenCards;
         this.mOnNoteListener = onNoteListener;
     }
@@ -40,7 +40,7 @@ public class GerechtenCardsAdapter extends RecyclerView.Adapter<GerechtenCardsAd
 
         @Override
         public void onClick(View view) {
-            onNoteListener.onNoteClick(getAdapterPosition());
+            onNoteListener.onNoteClickEigenGerecht(getAdapterPosition());
         }
     }
 
@@ -56,7 +56,7 @@ public class GerechtenCardsAdapter extends RecyclerView.Adapter<GerechtenCardsAd
 
     //op de eerste kaart zie je de eerste gerechtenCard, op de laatste kaart, de laatste
     @Override
-    public void onBindViewHolder(@NonNull @org.jetbrains.annotations.NotNull GerechtenCardsAdapter.GerechtenCardViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull @org.jetbrains.annotations.NotNull EigenGerechtenCardsAdapter.GerechtenCardViewHolder holder, int position) {
         holder.textView3.setText(gerechtenCards[position].getGerechtNaam());
         holder.imageView3.setImageResource(gerechtenCards[position].getImg());
     }
@@ -68,8 +68,6 @@ public class GerechtenCardsAdapter extends RecyclerView.Adapter<GerechtenCardsAd
     }
 
     public interface OnNoteListener{
-        void onNoteClick(int position);
-
         void onNoteClickEigenGerecht(int position);
     }
 }

@@ -1,8 +1,5 @@
 package com.example.myapplication;
 
-import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -11,10 +8,11 @@ import android.view.View;
 import android.widget.Button;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.room.Room;
+import android.widget.EditText;
+import android.widget.TextView;
 
-import android.content.Intent;
-import android.os.Bundle;
-import android.view.View;
+import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -23,31 +21,22 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 
-import android.widget.ArrayAdapter;
-import android.widget.EditText;
-import android.widget.Spinner;
-import android.widget.TextView;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
 public class MainActivity extends AppCompatActivity {
     private Gerecht gerecht;
     private AppDatabase database;
+    private Button toSecondScreenButton;
+    private Intent intent;
+    private Bundle bundleForHomepage;
+    private String user;
+    private int user_ID;
+    private JSONObject userObject;
+
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +46,8 @@ public class MainActivity extends AppCompatActivity {
         appBarTitle.setText("Inloggen");
         database = AppDatabase.getInstance(getApplicationContext());
         updateDatabase();
+        bundleForHomepage = new Bundle();
+        intent = new Intent(this, HomePage.class);
     }
     
     public void setRegisterContent(View view){
@@ -74,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
         params.put("email", String.valueOf(loginEmail.getText()));
         JSONObject parameters = new JSONObject(params);
 
-        String url = "http://10.0.2.2:9000/api/auth/login";
+        String url = "http://10.0.2.2:8000/api/auth/login";
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url, parameters, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
@@ -88,13 +79,22 @@ public class MainActivity extends AppCompatActivity {
                     myAwesomeTextView.setText("verkeerde inlog gegevens");
                 }
                 if(stringValue.equals("Valid details")){
-                    myAwesomeTextView.setText("Ingelogd");
+                    try {
+                        user = response.getString("user");
+                        userObject = new JSONObject(user);
+                        user_ID = (int) userObject.get("id");
+                        bundleForHomepage.putInt("user_ID", user_ID);
+                        intent.putExtras(bundleForHomepage);
+                        startActivity(intent);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                myAwesomeTextView.setText("Voer uw gegevens in");
+                myAwesomeTextView.setText(String.valueOf(error));
             }
         });
         requestQueue.add(jsonObjectRequest);
@@ -110,5 +110,5 @@ public class MainActivity extends AppCompatActivity {
 }
 
 
-
+ 
 
