@@ -200,9 +200,9 @@ public class HomePage extends AppCompatActivity implements GerechtenCardsAdapter
     }
 
     private void maakEigenGerechten(GerechtenCard[] eigenGerechten) {
+        //Nieuwe lijst van Gerechtencard met eigengerechtenOnline.length + eigengerechtenOffline.length als lengte
         recyclerViewAdapter2 = new EigenGerechtenCardsAdapter(eigenGerechten, this);
         recyclerView2.setAdapter(recyclerViewAdapter2);
-
     }
 
     public void naarFilterPagina(View v){
@@ -215,7 +215,7 @@ public class HomePage extends AppCompatActivity implements GerechtenCardsAdapter
     public void onNoteClickEigenGerecht(int position) {
         Log.d("test123", "clicked");
         Intent intentGerechtDetails = new Intent(this, GerechtDetails.class);
-
+        intentGerechtDetails.putExtras(bundleForHomepage);
         intentGerechtDetails.putExtra("geselecteerde_gerecht", eigenGerechten[position]);
         startActivity(intentGerechtDetails);
     }

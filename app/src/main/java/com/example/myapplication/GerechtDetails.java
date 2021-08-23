@@ -29,9 +29,11 @@ public class GerechtDetails extends AppCompatActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         GerechtenCard gerechtenCard = getIntent().getParcelableExtra("geselecteerde_gerecht");
+
         Bundle myBundle = getIntent().getExtras();
         user_ID = myBundle.getInt("user_ID");
         bundleForHomepage = new Bundle();
+
         setContentView(R.layout.gerecht_details);
         TextView appBarTitlex = findViewById(R.id.applicationBarTitle);
         String titletekst = gerechtenCard.getGerechtNaam();
@@ -64,9 +66,9 @@ public class GerechtDetails extends AppCompatActivity {
 
     }
     public void terugNaarHome(View v){
+        Intent intentForHomePage = new Intent(this, HomePage.class);
         bundleForHomepage.putInt("user_ID", user_ID);
-        Intent intent = new Intent(this, HomePage.class);
-        intent.putExtras(bundleForHomepage);
-        startActivity(intent);
+        intentForHomePage.putExtras(bundleForHomepage);
+        startActivity(intentForHomePage);
     }
 }
