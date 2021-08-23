@@ -8,6 +8,15 @@
     <string name="ingredienten">ingredienten</string>
     <string name="instructies">instructies</string>
     <string name="eigengerechten">Eigen gerechten</string>
+    <string name="gaTerug">&lt;</string>
+    <string name="filterKnop">filter</string>
+    <string name="filterTitel">Filter op een van de volgende categorieën!</string>
+    <string name="vis">vis</string>
+    <string name="kip">kip</string>
+    <string name="oven">oven</string>
+    <string name="rund">rund</string>
+    <string name="varken">varken</string>
+    <string name="vega">vega</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_login">LoginActivity</string>

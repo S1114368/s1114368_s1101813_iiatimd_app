@@ -3,6 +3,7 @@ package com.example.myapplication;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -40,6 +41,7 @@ public class HomePage extends AppCompatActivity implements GerechtenCardsAdapter
     private List<List<String>> userIngredienten = new ArrayList<List<String>>();
     private List<List<String>> userInstructies = new ArrayList<List<String>>();
     private RequestQueue queue;
+    private Bundle bundleForHomepage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +63,16 @@ public class HomePage extends AppCompatActivity implements GerechtenCardsAdapter
 
         recyclerViewAdapter = new GerechtenCardsAdapter(gerechtenOntDekken, this);
         recyclerView.setAdapter(recyclerViewAdapter);
+
+        recyclerView2 = findViewById(R.id.recyclerViewId2);
+        //recycler view heeft een layout manager nodig zodat alles netjes onder elkaar komt
+        layoutManager2 = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+        recyclerView2.setLayoutManager(layoutManager2);
+        recyclerView2.hasFixedSize();
+        recyclerView2.setAdapter(null);
+
+        bundleForHomepage = new Bundle();
+        bundleForHomepage.putInt("user_ID", myBundle.getInt("user_ID"));
 
     }
 
@@ -178,20 +190,22 @@ public class HomePage extends AppCompatActivity implements GerechtenCardsAdapter
     public void onNoteClick(int position) {
         Log.d("test123", "clicked");
         Intent intentGerechtDetails = new Intent(this, GerechtDetails.class);
+        intentGerechtDetails.putExtras(bundleForHomepage);
 
         intentGerechtDetails.putExtra("geselecteerde_gerecht", gerechtenOntDekken[position]);
         startActivity(intentGerechtDetails);
     }
 
     private void maakEigenGerechten(GerechtenCard[] eigenGerechten) {
-        recyclerView2 = findViewById(R.id.recyclerViewId2);
-        //recycler view heeft een layout manager nodig zodat alles netjes onder elkaar komt
-        layoutManager2 = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
-        recyclerView2.setLayoutManager(layoutManager2);
-        recyclerView2.hasFixedSize();
         recyclerViewAdapter2 = new EigenGerechtenCardsAdapter(eigenGerechten, this);
         recyclerView2.setAdapter(recyclerViewAdapter2);
 
+    }
+
+    public void naarFilterPagina(View v){
+        Intent intentFilter = new Intent(this, FilterPagina.class);
+        intentFilter.putExtras(bundleForHomepage);
+        startActivity(intentFilter);
     }
 
     @Override
