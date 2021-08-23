@@ -211,6 +211,12 @@ public class HomePage extends AppCompatActivity implements GerechtenCardsAdapter
         startActivity(intentFilter);
     }
 
+    public void naarMaakGerechtPagina(View v){
+        Intent intentFilter = new Intent(this, AddReceiptActivity.class);
+        intentFilter.putExtras(bundleForHomepage);
+        startActivity(intentFilter);
+    }
+
     @Override
     public void onNoteClickEigenGerecht(int position) {
         Log.d("test123", "clicked");
