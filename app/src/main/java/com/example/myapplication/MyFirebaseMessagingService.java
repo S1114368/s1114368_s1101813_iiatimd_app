@@ -24,19 +24,19 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void onMessageReceived(RemoteMessage message){
-        sendNotification(message.getData().get("leerdoel"));
+        sendNotification(message.getData().get("Studie Eet App"));
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     private void sendNotification(String messageBody){
         Intent intent = new Intent(this, MainActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        intent.putExtra("leerdoel", messageBody);
+        intent.putExtra("Studie Eet App", messageBody);
         PendingIntent pendingIntent = PendingIntent.getActivity(this,0,intent, PendingIntent.FLAG_ONE_SHOT);
 
         String channelId = "1";
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this, channelId)
-                .setContentTitle("Leerdoel van vandaag")
+                .setContentTitle("Er staan lekkere gerechten klaar!")
                 .setContentText(messageBody)
                 .setSmallIcon(R.mipmap.ic_launcher)
                 .setAutoCancel(true)

@@ -43,7 +43,7 @@ public class AddReceiptActivity extends AppCompatActivity {
         setContentView(R.layout.activity_add_receipt);
 
         String[] arraySpinner = new String[] {
-                "vegatarisch", "vis", "kip", "varken", "rund", "oven"
+                "vega", "vis", "kip", "varken", "rund", "oven"
         };
         Spinner s = (Spinner) findViewById(R.id.categorie);
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,

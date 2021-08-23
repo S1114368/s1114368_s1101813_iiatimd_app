@@ -55,7 +55,7 @@ public class HomePage extends AppCompatActivity implements GerechtenCardsAdapter
         TextView appBarTitle =findViewById(R.id.applicationBarTitle);
         appBarTitle.setText("Home Page");
         Bundle myBundle = getIntent().getExtras();
-        user_naam = String.valueOf(myBundle.getString("user_ID"));
+        user_naam = myBundle.getString("user_naam");
         recyclerView = findViewById(R.id.recyclerViewId);
         //recycler view heeft een layout manager nodig zodat alles netjes onder elkaar komt
         layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
@@ -123,7 +123,7 @@ public class HomePage extends AppCompatActivity implements GerechtenCardsAdapter
                                 int currentPosition = userIngredienten.size() - 1;
                                 for(int x = 0; x < response.length(); x++){
                                     try {
-                                        userIngredienten.get(currentPosition).add(String.valueOf(response.getJSONObject(x).getString("beschrijving_ingredient")));
+                                        userIngredienten.get(currentPosition).add(String.valueOf(response.getJSONObject(x).getString("aantal") + " " + response.getJSONObject(x).getString("ingredient")) );
                                     } catch (JSONException e) {
                                         e.printStackTrace();
                                     }
@@ -160,7 +160,7 @@ public class HomePage extends AppCompatActivity implements GerechtenCardsAdapter
                                 int currentPosition = userInstructies.size() - 1;
                                 for(int x = 0; x < response.length(); x++){
                                     try {
-                                        userInstructies.get(currentPosition).add(String.valueOf(response.getJSONObject(x).getString("beschrijving_instructie")));
+                                        userInstructies.get(currentPosition).add(String.valueOf(response.getJSONObject(x).getString("beschrijving") ));
                                     } catch (JSONException e) {
                                         e.printStackTrace();
                                     }
