@@ -58,8 +58,8 @@ public class HomePage extends AppCompatActivity implements GerechtenCardsAdapter
         recyclerView.hasFixedSize();
 
         //Standaard ontdek gerechten
-        getGerechtenOntdekken();;
-        getUserGerechten(myBundle.getInt("user_ID"));
+        getGerechtenOntdekken(myBundle.getString("categorie"));;
+        getUserGerechten(myBundle.getInt("user_ID"), myBundle.getString("categorie"));
 
         recyclerViewAdapter = new GerechtenCardsAdapter(gerechtenOntDekken, this);
         recyclerView.setAdapter(recyclerViewAdapter);
@@ -76,7 +76,7 @@ public class HomePage extends AppCompatActivity implements GerechtenCardsAdapter
 
     }
 
-    private void getUserGerechten(int user_ID) {
+    private void getUserGerechten(int user_ID, String categorieFilter) {
         queue = Volley.newRequestQueue(this);
         String url ="http://10.0.2.2:8000/api/gerechten/" + String.valueOf(user_ID);
 
@@ -87,7 +87,7 @@ public class HomePage extends AppCompatActivity implements GerechtenCardsAdapter
                     public void onResponse(JSONArray response) {
                         userGerechten = response;
                         eigenGerechten = new GerechtenCard[userGerechten.length()];
-                        setIngredientenList(userGerechten);
+                        setIngredientenList(userGerechten, categorieFilter);
                         }
                 }, new Response.ErrorListener() {
             @Override
@@ -98,7 +98,7 @@ public class HomePage extends AppCompatActivity implements GerechtenCardsAdapter
         queue.add(jsonArrayRequest);
     }
 
-    public void setIngredientenList(JSONArray userGerechten) {
+    public void setIngredientenList(JSONArray userGerechten, String categorieFilter) {
         int i = 0;
         for(i = 0; i < userGerechten.length(); i++){
             try {
@@ -116,7 +116,7 @@ public class HomePage extends AppCompatActivity implements GerechtenCardsAdapter
                                         e.printStackTrace();
                                     }
                                 }
-                                setInstructiesList(userGerechten, currentPosition);
+                                setInstructiesList(userGerechten, currentPosition, categorieFilter);
 //                                userIngredienten
 //                                try {
 //                                    Log.d("testdietest", String.valueOf(instructieGerechtenList.get(0).getJSONObject(0).getString("beschrijving_ingredient")));
@@ -137,7 +137,7 @@ public class HomePage extends AppCompatActivity implements GerechtenCardsAdapter
         }
     }
 
-    public void setInstructiesList(JSONArray userGerechten, int counter) {
+    public void setInstructiesList(JSONArray userGerechten, int counter, String categorieFilter) {
             try {
                 String url3 = "http://10.0.2.2:8000/api/gerechten/" + String.valueOf(userGerechten.getJSONObject(counter).getString("gerecht_ID") + "/instructie");
                 JsonArrayRequest jsonArrayRequest3 = new JsonArrayRequest(Request.Method.GET, url3, null,
@@ -161,6 +161,9 @@ public class HomePage extends AppCompatActivity implements GerechtenCardsAdapter
                                     List<String> ingredienten = userIngredienten.get(currentPosition);
                                     eigenGerechten[currentPosition] = new GerechtenCard(gerechtNaam, aantal_personen, categorie, ingredienten, instructies,  false);
                                     if(userInstructies.size() == userGerechten.length()){
+                                        if(categorieFilter != null && categorieFilter != "geen filter"){
+                                            eigenGerechten = filterGerechten(categorieFilter, userGerechten, eigenGerechten);
+                                        }
                                         maakEigenGerechten(eigenGerechten);
                                     }
                                 } catch (JSONException e) {
@@ -217,7 +220,7 @@ public class HomePage extends AppCompatActivity implements GerechtenCardsAdapter
         startActivity(intentGerechtDetails);
     }
 
-    private void getGerechtenOntdekken() {
+    private void getGerechtenOntdekken(String categorieFilter) {
         InputStream inputStream = null;
         try {
             inputStream = getAssets().open("data.json");
@@ -255,9 +258,48 @@ public class HomePage extends AppCompatActivity implements GerechtenCardsAdapter
                 }
                 gerechtenOntDekken[i] = new GerechtenCard(gerecht_naam, aantal_personen, categorie, myListIngredienten, myListInstructies, true);
             }
+            Log.d("heyheyhey", categorieFilter + " emtpy");
+            if(categorieFilter != null && categorieFilter != "geen filter"){
+                gerechtenOntDekken = filterGerechten(categorieFilter, arrGerechten, gerechtenOntDekken);
+            }
+//            if(categorieFilter != null && categorieFilter != "geen filter"){
+//                int indexCounter = 0;
+//                for(int x = 0; x < arrGerechten.length(); x++){
+//                    if(gerechtenOntDekken[x].getCategorie().equals(categorieFilter)){
+//                        indexCounter++;
+//                    }
+//                }
+//                GerechtenCard[] gerechtenOntDekkenFilter = new GerechtenCard[indexCounter];
+//                indexCounter = 0;
+//                for(int x = 0; x < arrGerechten.length(); x++){
+//                    if(gerechtenOntDekken[x].getCategorie().equals(categorieFilter)){
+//                        gerechtenOntDekkenFilter[indexCounter] = gerechtenOntDekken[x];
+//                        indexCounter++;
+//                    }
+//                }
+//                gerechtenOntDekken = gerechtenOntDekkenFilter;
+//            }
 
         } catch (JSONException e) {
             e.printStackTrace();
         }
+    }
+    public GerechtenCard[] filterGerechten(String categorieFilter, JSONArray arrGerechten, GerechtenCard[] gerechten){
+            int indexCounter = 0;
+            for(int x = 0; x < arrGerechten.length(); x++){
+                if(gerechten[x].getCategorie().equals(categorieFilter)){
+                    indexCounter++;
+                }
+            }
+            GerechtenCard[] gerechtenOntDekkenFilter = new GerechtenCard[indexCounter];
+            indexCounter = 0;
+            for(int x = 0; x < arrGerechten.length(); x++){
+                if(gerechten[x].getCategorie().equals(categorieFilter)){
+                    gerechtenOntDekkenFilter[indexCounter] = gerechten[x];
+                    indexCounter++;
+                }
+            }
+            gerechten = gerechtenOntDekkenFilter;
+            return gerechten;
     }
 }

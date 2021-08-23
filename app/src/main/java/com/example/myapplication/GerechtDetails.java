@@ -22,7 +22,6 @@ public class GerechtDetails extends AppCompatActivity {
     private List<String> instructies;
     private StringBuilder ingredientBuild;
     private StringBuilder instructiesBuild;
-    private Intent intent;
     private Bundle bundleForHomepage;
     private int user_ID;
 
@@ -30,10 +29,9 @@ public class GerechtDetails extends AppCompatActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         GerechtenCard gerechtenCard = getIntent().getParcelableExtra("geselecteerde_gerecht");
-        intent = new Intent(this, HomePage.class);
-        bundleForHomepage = new Bundle();
         Bundle myBundle = getIntent().getExtras();
         user_ID = myBundle.getInt("user_ID");
+        bundleForHomepage = new Bundle();
         setContentView(R.layout.gerecht_details);
         TextView appBarTitlex = findViewById(R.id.applicationBarTitle);
         String titletekst = gerechtenCard.getGerechtNaam();
@@ -67,8 +65,8 @@ public class GerechtDetails extends AppCompatActivity {
     }
     public void terugNaarHome(View v){
         bundleForHomepage.putInt("user_ID", user_ID);
+        Intent intent = new Intent(this, HomePage.class);
         intent.putExtras(bundleForHomepage);
-        startActivity(intent);
         startActivity(intent);
     }
 }

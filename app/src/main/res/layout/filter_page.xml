@@ -11,6 +11,7 @@
         android:layout_height="85dp"
         android:layout_marginTop="60dp"
         android:text="@string/kip"
+        android:onClick="filterGerecht" android:tag="kip"
         app:layout_constraintEnd_toStartOf="@+id/button6"
         app:layout_constraintStart_toEndOf="@+id/button7"
         app:layout_constraintTop_toBottomOf="@+id/textView12" />
@@ -23,6 +24,7 @@
         android:layout_marginLeft="20dp"
         android:layout_marginTop="60dp"
         android:text="@string/vis"
+        android:onClick="filterGerecht" android:tag="vis"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView12" />
 
@@ -32,6 +34,7 @@
         android:layout_height="85dp"
         android:layout_marginTop="36dp"
         android:text="vega"
+        android:onClick="filterGerecht" android:tag="vega"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/button9"
         app:layout_constraintStart_toEndOf="@+id/button10"
@@ -46,6 +49,7 @@
         android:layout_marginLeft="20dp"
         android:layout_marginTop="36dp"
         android:text="@string/rund"
+        android:onClick="filterGerecht" android:tag="rund"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/button4" />
 
@@ -57,6 +61,7 @@
         android:layout_marginEnd="20dp"
         android:layout_marginRight="20dp"
         android:text="varken"
+        android:onClick="filterGerecht" android:tag="varken"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/button4" />
 
@@ -68,6 +73,7 @@
         android:layout_marginEnd="20dp"
         android:layout_marginRight="20dp"
         android:text="oven"
+        android:onClick="filterGerecht" android:tag="oven"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView12" />
 
