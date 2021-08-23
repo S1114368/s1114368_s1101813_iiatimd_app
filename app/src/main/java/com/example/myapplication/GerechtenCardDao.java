@@ -9,7 +9,7 @@ public interface GerechtenCardDao {
     GerechtenCard[] getAll();
 
     @Insert
-    void insertGerechtCard(GerechtenCard gerechtenCard);
+    void insertGerechtCard(GerechtenCard[] gerechtenCard);
 
 
 }
