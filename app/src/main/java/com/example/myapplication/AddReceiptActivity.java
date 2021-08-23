@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.constraintlayout.widget.ConstraintSet;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -32,6 +33,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class AddReceiptActivity extends AppCompatActivity {
+    private int user_ID;
+    private Bundle bundleForHomepage;
+    private Intent intentHomepage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +52,11 @@ public class AddReceiptActivity extends AppCompatActivity {
         s.setAdapter(adapter);
         TextView appBarTitle =findViewById(R.id.applicationBarTitle);
         appBarTitle.setText("Gerecht toevoegen");
+
+        Bundle myBundle = getIntent().getExtras();
+        user_ID = myBundle.getInt("user_ID");
+        bundleForHomepage = new Bundle();
+        intentHomepage = new Intent(this, HomePage.class);
     }
 
     public void setLoginContent(View view){
@@ -150,6 +159,9 @@ public class AddReceiptActivity extends AppCompatActivity {
             @Override
             public void onResponse(JSONObject response) {
                 txt.setText("Gerecht toegevoegd!");
+                bundleForHomepage.putInt("user_ID", user_ID);
+                intentHomepage.putExtras(bundleForHomepage);
+                startActivity(intentHomepage);
             }
         },  new Response.ErrorListener() {
             @Override
