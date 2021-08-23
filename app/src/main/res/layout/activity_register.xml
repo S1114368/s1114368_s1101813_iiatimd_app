@@ -17,6 +17,10 @@
         app:layout_constraintStart_toStartOf="@+id/registerName"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <include
+        android:id="@+id/include"
+        layout="@layout/toolbar" />
+
     <EditText
         android:id="@+id/registerName"
         android:layout_width="wrap_content"

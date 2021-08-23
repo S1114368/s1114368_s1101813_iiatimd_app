@@ -22,7 +22,7 @@
             android:textSize="18dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@+id/include" />
 
         <EditText
             android:id="@+id/dishName"
@@ -97,6 +97,34 @@
             app:layout_constraintTop_toBottomOf="@+id/ingredient2" />
 
         <EditText
+            android:id="@+id/ingredient4"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:layout_marginTop="6dp"
+            android:background="@drawable/rounded_corners"
+            android:ems="10"
+            android:hint="Ingrediënt 1..."
+            android:inputType="textPersonName"
+            android:padding="6dp"
+            android:textSize="14dp"
+            app:layout_constraintStart_toStartOf="@+id/ingredient2"
+            app:layout_constraintTop_toBottomOf="@+id/ingredient3" />
+
+        <EditText
+            android:id="@+id/ingredient5"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:layout_marginTop="6dp"
+            android:background="@drawable/rounded_corners"
+            android:ems="10"
+            android:hint="Ingrediënt 1..."
+            android:inputType="textPersonName"
+            android:padding="6dp"
+            android:textSize="14dp"
+            app:layout_constraintStart_toStartOf="@+id/ingredient2"
+            app:layout_constraintTop_toBottomOf="@+id/ingredient4" />
+
+        <EditText
             android:id="@+id/amount1"
             android:layout_width="100dp"
             android:layout_height="50dp"
@@ -125,6 +153,34 @@
             app:layout_constraintTop_toBottomOf="@+id/amount2" />
 
         <EditText
+            android:id="@+id/amount4"
+            android:layout_width="100dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="6dp"
+            android:background="@drawable/rounded_corners"
+            android:ems="10"
+            android:hint="Aantal gram"
+            android:inputType="textPersonName"
+            android:padding="6dp"
+            android:textSize="14dp"
+            app:layout_constraintEnd_toEndOf="@+id/dishName"
+            app:layout_constraintTop_toBottomOf="@+id/amount3" />
+
+        <EditText
+            android:id="@+id/amount5"
+            android:layout_width="100dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="6dp"
+            android:background="@drawable/rounded_corners"
+            android:ems="10"
+            android:hint="Aantal gram"
+            android:inputType="textPersonName"
+            android:padding="6dp"
+            android:textSize="14dp"
+            app:layout_constraintEnd_toEndOf="@+id/dishName"
+            app:layout_constraintTop_toBottomOf="@+id/amount4" />
+
+        <EditText
             android:id="@+id/amount2"
             android:layout_width="100dp"
             android:layout_height="50dp"
@@ -142,41 +198,42 @@
             android:id="@+id/addIngredientButton"
             android:layout_width="164dp"
             android:layout_height="50dp"
-            android:layout_marginTop="6dp"
+            android:layout_marginTop="8dp"
             android:text="+"
             app:backgroundTint="@color/primary_red"
             app:iconTint="@color/white"
             app:layout_constraintEnd_toEndOf="@+id/ingredient3"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="@+id/ingredient3"
-            app:layout_constraintTop_toBottomOf="@+id/ingredient3" />
+            app:layout_constraintTop_toBottomOf="@+id/ingredient5" />
 
         <Button
             android:id="@+id/addStepButton"
             android:layout_width="320dp"
             android:layout_height="50dp"
             android:layout_marginTop="6dp"
-            android:text="+"
             android:onClick="setLoginContent"
+            android:text="+"
             app:backgroundTint="@color/primary_red"
             app:iconTint="@color/white"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/step2" />
+            app:layout_constraintTop_toBottomOf="@+id/step3" />
 
         <Button
             android:id="@+id/addDishButton"
             android:layout_width="320dp"
             android:layout_height="50dp"
-            android:layout_marginTop="32dp"
+            android:layout_marginTop="16dp"
             android:layout_marginBottom="32dp"
+            android:onClick="postCreateRequest"
             android:text="Voeg de lekkere creatie toe!"
             app:backgroundTint="@color/primary_red"
             app:iconTint="@color/white"
-            android:onClick="postCreateRequest"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/categorie"
+            app:layout_constraintTop_toBottomOf="@+id/textView9"
             app:layout_constraintVertical_bias="0.0" />
 
         <TextView
@@ -229,6 +286,22 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/step1" />
 
+        <EditText
+            android:id="@+id/step3"
+            android:layout_width="320dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/rounded_corners"
+            android:ems="10"
+            android:hint="Stap 3..."
+            android:inputType="textPersonName"
+            android:padding="6dp"
+            android:textSize="14dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.505"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/step2" />
+
         <TextView
             android:id="@+id/textView11"
             android:layout_width="wrap_content"
@@ -252,6 +325,20 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView11" />
+
+        <TextView
+            android:id="@+id/textView9"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:textColor="@color/primary_red"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/categorie" />
+
+        <include
+            android:id="@+id/include"
+            layout="@layout/toolbar" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.room.Room;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -45,17 +46,21 @@ import java.util.Arrays;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
-    private Button toSecondScreenButton;
-
+    private Gerecht gerecht;
+    private AppDatabase database;
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        TextView appBarTitle =findViewById(R.id.applicationBarTitle);
+        appBarTitle.setText("Inloggen");
+        database = AppDatabase.getInstance(getApplicationContext());
+        updateDatabase();
     }
     
     public void setRegisterContent(View view){
-        startActivity(new Intent(MainActivity.this, AddReceiptActivity.class));
+        startActivity(new Intent(MainActivity.this, RegisterActivity.class));
     }
     public void postLoginRequest(View view){
         TextView myAwesomeTextView = (TextView)findViewById(R.id.myAwesomeTextView);
@@ -93,6 +98,13 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         requestQueue.add(jsonObjectRequest);
+    }
+
+    public void updateDatabase(){
+        List<Gerecht> gerechten = database.gerechtDao().getAll();
+        if(gerechten.size()==0){
+            database.gerechtDao().insert(new Gerecht());
+        }
     }
 
 }

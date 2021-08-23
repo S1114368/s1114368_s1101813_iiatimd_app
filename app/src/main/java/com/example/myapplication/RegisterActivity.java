@@ -32,6 +32,8 @@ public class RegisterActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
+        TextView appBarTitle =findViewById(R.id.applicationBarTitle);
+        appBarTitle.setText("Registreren");
     }
 
 
@@ -71,7 +73,8 @@ public class RegisterActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
                 if(stringValue.equals("Valid details")){
-                   myAwesomeTextView.setText("Geregistreerd2");
+                   myAwesomeTextView.setText("Geregistreerd!");
+                   finish();
                 }
             }
         }, new Response.ErrorListener() {
