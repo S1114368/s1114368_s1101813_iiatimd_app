@@ -4,23 +4,28 @@ package com.example.myapplication;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
+import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
+
+import org.jetbrains.annotations.NonNls;
 
 import java.util.List;
 
-@Entity
+@Entity(tableName = "gerechtenCard")
 public class GerechtenCard implements Parcelable {
 
         @PrimaryKey
+        @NonNull
         private String gerechtNaam;
 
         @ColumnInfo
         private int aantal_personen;
 
         @ColumnInfo
-        private boolean gerechtOntdekken;
+        private String gerechtOntdekken;
 
         @ColumnInfo
         private String categorie;
@@ -31,15 +36,15 @@ public class GerechtenCard implements Parcelable {
         @ColumnInfo
         private List<String> instructies;
 
-    public GerechtenCard (String gerechtNaam, int aantal_personen, String categorie, List<String> ingredienten, List<String> instructies, boolean gerechtOndekken){
+    public GerechtenCard (String gerechtNaam, int aantal_personen, String categorie, List<String> ingredienten, List<String> instructies, String gerechtOntdekken){
             this.gerechtNaam = gerechtNaam;
             this.aantal_personen = aantal_personen;
             this.categorie = categorie;
             this.ingredienten = ingredienten;
             this.instructies = instructies;
-            this.gerechtOntdekken = gerechtOndekken;
     }
 
+    @Ignore
     protected GerechtenCard(Parcel in) {
         gerechtNaam = in.readString();
         aantal_personen = in.readInt();
@@ -55,7 +60,7 @@ public class GerechtenCard implements Parcelable {
         return categorie;
     }
 
-    public boolean getGerechtOntdekken() {return gerechtOntdekken;}
+    public String getGerechtOntdekken() {return gerechtOntdekken;}
 
     public List<String> getIngredienten() {
         return ingredienten;

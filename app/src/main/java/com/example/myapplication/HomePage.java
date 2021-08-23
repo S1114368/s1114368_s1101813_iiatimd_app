@@ -1,5 +1,6 @@
 package com.example.myapplication;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -36,6 +37,7 @@ public class HomePage extends AppCompatActivity implements GerechtenCardsAdapter
     private RecyclerView.Adapter recyclerViewAdapter2;
     private GerechtenCard[] gerechtenOntDekken;
     private GerechtenCard[] eigenGerechten;
+    private GerechtenCard[] offlineEigenGerechten;
     private String json;
     private JSONArray userGerechten;
     private List<List<String>> userIngredienten = new ArrayList<List<String>>();
@@ -159,7 +161,7 @@ public class HomePage extends AppCompatActivity implements GerechtenCardsAdapter
                                     String categorie = userGerechten.getJSONObject(currentPosition).getString("categorie");
                                     List<String> instructies = userInstructies.get(currentPosition);
                                     List<String> ingredienten = userIngredienten.get(currentPosition);
-                                    eigenGerechten[currentPosition] = new GerechtenCard(gerechtNaam, aantal_personen, categorie, ingredienten, instructies,  false);
+                                    eigenGerechten[currentPosition] = new GerechtenCard(gerechtNaam, aantal_personen, categorie, ingredienten, instructies,  "false");
                                     if(userInstructies.size() == userGerechten.length()){
                                         if(categorieFilter != null && categorieFilter != "geen filter"){
                                             eigenGerechten = filterGerechten(categorieFilter, userGerechten, eigenGerechten);
@@ -200,9 +202,19 @@ public class HomePage extends AppCompatActivity implements GerechtenCardsAdapter
     }
 
     private void maakEigenGerechten(GerechtenCard[] eigenGerechten) {
-        //Nieuwe lijst van Gerechtencard met eigengerechtenOnline.length + eigengerechtenOffline.length als lengte
-        recyclerViewAdapter2 = new EigenGerechtenCardsAdapter(eigenGerechten, this);
-        recyclerView2.setAdapter(recyclerViewAdapter2);
+        AppDatabase database = AppDatabase.getInstance(this);
+        if(offlineEigenGerechten.length == 0){
+            for(int i=0; i>eigenGerechten.length; i++){
+                database.gerechtenCardDao().insertGerechtCard(eigenGerechten[i]);
+            }
+            offlineEigenGerechten = database.gerechtenCardDao().getAll();
+            recyclerViewAdapter2 = new EigenGerechtenCardsAdapter(offlineEigenGerechten, this);
+            recyclerView2.setAdapter(recyclerViewAdapter2);
+        }
+        else{
+            recyclerViewAdapter2 = new EigenGerechtenCardsAdapter(offlineEigenGerechten, this);
+            recyclerView2.setAdapter(recyclerViewAdapter2);
+        }
     }
 
     public void naarFilterPagina(View v){
@@ -256,7 +268,7 @@ public class HomePage extends AppCompatActivity implements GerechtenCardsAdapter
                 for (int x = 0; x < myListInstructies.size(); x++){
                     myListInstructies.set(x, myListInstructies.get(x).replaceAll("[^\\w\\s]",""));
                 }
-                gerechtenOntDekken[i] = new GerechtenCard(gerecht_naam, aantal_personen, categorie, myListIngredienten, myListInstructies, true);
+                gerechtenOntDekken[i] = new GerechtenCard(gerecht_naam, aantal_personen, categorie, myListIngredienten, myListInstructies, "true");
             }
             Log.d("heyheyhey", categorieFilter + " emtpy");
             if(categorieFilter != null && categorieFilter != "geen filter"){

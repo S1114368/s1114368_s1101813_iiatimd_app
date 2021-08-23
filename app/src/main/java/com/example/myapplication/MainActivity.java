@@ -28,7 +28,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
-    private Gerecht gerecht;
     private AppDatabase database;
     private Button toSecondScreenButton;
     private Intent intent;
@@ -44,8 +43,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         TextView appBarTitle =findViewById(R.id.applicationBarTitle);
         appBarTitle.setText("Inloggen");
-        database = AppDatabase.getInstance(getApplicationContext());
-        updateDatabase();
         bundleForHomepage = new Bundle();
         intent = new Intent(this, HomePage.class);
     }
@@ -99,14 +96,6 @@ public class MainActivity extends AppCompatActivity {
         });
         requestQueue.add(jsonObjectRequest);
     }
-
-    public void updateDatabase(){
-        List<Gerecht> gerechten = database.gerechtDao().getAll();
-        if(gerechten.size()==0){
-            database.gerechtDao().insert(new Gerecht());
-        }
-    }
-
 }
 
 
