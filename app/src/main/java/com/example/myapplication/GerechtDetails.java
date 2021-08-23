@@ -1,8 +1,10 @@
 package com.example.myapplication;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import android.util.Log;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -20,12 +22,18 @@ public class GerechtDetails extends AppCompatActivity {
     private List<String> instructies;
     private StringBuilder ingredientBuild;
     private StringBuilder instructiesBuild;
+    private Intent intent;
+    private Bundle bundleForHomepage;
+    private int user_ID;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         GerechtenCard gerechtenCard = getIntent().getParcelableExtra("geselecteerde_gerecht");
-
+        intent = new Intent(this, HomePage.class);
+        bundleForHomepage = new Bundle();
+        Bundle myBundle = getIntent().getExtras();
+        user_ID = myBundle.getInt("user_ID");
         setContentView(R.layout.gerecht_details);
         TextView appBarTitlex = findViewById(R.id.applicationBarTitle);
         String titletekst = gerechtenCard.getGerechtNaam();
@@ -56,5 +64,11 @@ public class GerechtDetails extends AppCompatActivity {
         }
         instructiesText.setText(String.valueOf(instructiesBuild));
 
+    }
+    public void terugNaarHome(View v){
+        bundleForHomepage.putInt("user_ID", user_ID);
+        intent.putExtras(bundleForHomepage);
+        startActivity(intent);
+        startActivity(intent);
     }
 }
